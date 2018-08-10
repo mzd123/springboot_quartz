@@ -7,9 +7,9 @@ import org.springframework.scheduling.quartz.AdaptableJobFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * 解决spring bean注入Job的问题
+ * 将job交给spring来管理
  */
-//@Component
+@Component
 public class SpringJobFactory extends AdaptableJobFactory {
     @Autowired
     private AutowireCapableBeanFactory capableBeanFactory;

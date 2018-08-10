@@ -2,30 +2,23 @@ package com.mzd.my_boot_quartz.job;
 
 import java.io.Serializable;
 
+import com.mzd.my_boot_quartz.service.JobService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
-/**
- * 实现序列化接口、防止重启应用出现quartz Couldn't retrieve job because a required class was not found 的问题
- */
 public class TestJob implements Job, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-//    @Autowired
-//    private TestService testService;
+    @Autowired
+    private JobService jobService;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        //  testService.doTest();
-
+        jobService.doTest();
         System.out.println("任务执行成功");
-//        try {
-//            Thread.sleep(3000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
     }
 }

@@ -16,8 +16,8 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 @Configuration
 public class SchedulerConfig {
 
-//    @Autowired
-//    private SpringJobFactory springJobFactory;
+    @Autowired
+    private SpringJobFactory springJobFactory;
 
     @Bean(name = "SchedulerFactory")
     public SchedulerFactoryBean schedulerFactoryBean() throws IOException {
@@ -25,7 +25,7 @@ public class SchedulerConfig {
         factory.setAutoStartup(true);
         factory.setStartupDelay(5);//延时5秒启动
         factory.setQuartzProperties(quartzProperties());
-        //factory.setJobFactory(springJobFactory);
+        factory.setJobFactory(springJobFactory);
         return factory;
     }
 
