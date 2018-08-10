@@ -14,7 +14,6 @@ public class ErrorController {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Result error(Throwable throwable) {
-        System.out.println("aaa");
         logger.error(throwable.toString());
         return new Result("500", throwable.toString(), null);
     }

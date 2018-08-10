@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 public class JobController {
-    private final static Logger LOGGER = LoggerFactory.getLogger(JobController.class);
+    private final static Logger logger = LoggerFactory.getLogger(JobController.class);
     private final String baseuri = "/job";
     @Autowired
     @Qualifier("Scheduler")
@@ -31,8 +31,7 @@ public class JobController {
      */
     @RequestMapping(value = baseuri + "/addschedule")
     public Result save(QuartzBean quartz) throws Exception {
-        LOGGER.info("新增任务");
-        int i = 100 / 0;
+        logger.info("新增任务");
         if (quartz.getOldJobGroup() != null) {
             JobKey key = new JobKey(quartz.getOldJobName(), quartz.getOldJobGroup());
             scheduler.deleteJob(key);
@@ -67,7 +66,7 @@ public class JobController {
      */
     @RequestMapping(value = baseuri + "/getlist4schedule")
     public Result list(String name) {
-        LOGGER.info("任务列表");
+        logger.info("任务列表");
         List<QuartzBean> list = jobService.listQuartzBean(name);
         return new Result("200", "", list);
     }
@@ -80,7 +79,7 @@ public class JobController {
      */
     @RequestMapping(value = baseuri + "/doschedule")
     public Result trigger(QuartzBean quartz) throws Exception {
-        LOGGER.info("立即执行");
+        logger.info("立即执行");
         JobKey key = new JobKey(quartz.getJobName(), quartz.getJobGroup());
         scheduler.triggerJob(key);
         return new Result("200", "", null);
@@ -94,7 +93,7 @@ public class JobController {
      */
     @RequestMapping(value = baseuri + "/pauseschedule")
     public Result pause(QuartzBean quartz) throws Exception {
-        LOGGER.info("停止任务");
+        logger.info("停止任务");
         JobKey key = new JobKey(quartz.getJobName(), quartz.getJobGroup());
         scheduler.pauseJob(key);
         return new Result("200", "", null);
@@ -108,7 +107,7 @@ public class JobController {
      */
     @RequestMapping(value = baseuri + "/recoverschedule")
     public Result resume(QuartzBean quartz) throws Exception {
-        LOGGER.info("恢复任务");
+        logger.info("恢复任务");
         JobKey key = new JobKey(quartz.getJobName(), quartz.getJobGroup());
         scheduler.resumeJob(key);
         return new Result("200", "", null);
@@ -122,7 +121,7 @@ public class JobController {
      */
     @RequestMapping(value = baseuri + "/deleteschedule")
     public Result remove(QuartzBean quartz) throws Exception {
-        LOGGER.info("删除任务");
+        logger.info("删除任务");
         TriggerKey triggerKey = TriggerKey.triggerKey(quartz.getJobName(), quartz.getJobGroup());
         // 停止触发器
         scheduler.pauseTrigger(triggerKey);
@@ -130,7 +129,7 @@ public class JobController {
         scheduler.unscheduleJob(triggerKey);
         // 删除任务
         scheduler.deleteJob(JobKey.jobKey(quartz.getJobName(), quartz.getJobGroup()));
-        System.out.println("removeJob:" + JobKey.jobKey(quartz.getJobName()));
+        logger.info("removeJob:" + JobKey.jobKey(quartz.getJobName()));
         return new Result("200", "", null);
     }
 
